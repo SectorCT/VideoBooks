@@ -1,5 +1,5 @@
 .navigation{
-    background-image: linear-gradient(0deg, #f7d333, #f8e856);
+    background-image: linear-gradient(0deg, #f1d559, #f5de15);
     display: flex;
     justify-content: space-between;
 }
@@ -26,15 +26,20 @@
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: bolder;
 }
+.mainContainer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+.books{
 
+}
 /* Not made by me */
 .uploadFileContainer {
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-top: 20px;
-    height: 100vh;
 }
 
 .buttonContainer input {
