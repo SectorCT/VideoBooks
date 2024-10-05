@@ -58,6 +58,7 @@ def transcribe_audio(request):
 
         # Perform transcription
         try:
+            print("Transcribing " + audio_path)
             result = get_transcribe(audio=audio_path)
             cache.set(cache_key, result)  # Cache the result
             return JsonResponse(result)  # Return the transcription as JSON

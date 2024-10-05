@@ -5,6 +5,7 @@ import whisper
 import os
 import subprocess
 import hashlib
+import torch
 
 # Initialize the Flask app
 app = Flask(__name__)
@@ -13,7 +14,7 @@ app = Flask(__name__)
 CORS(app)
 
 # Configure caching
-cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT': 3600})  # Cache for 1 hour
+cache = Cache(app, config={'CACHE_TYPE': 'SimpleCache', 'CACHE_DEFAULT_TIMEOUT': 3600000})  # Cache for 1 hour
 
 # Load the Whisper model once
 model = whisper.load_model('base')
@@ -24,8 +25,9 @@ def get_transcribe(audio: str, language: str = 'en'):
 
 # Function to convert MP3 to WAV
 def convert_mp3_to_wav(mp3_path: str, wav_path: str):
-    command = ['ffmpeg', '-i', mp3_path, wav_path]
+    command = ['ffmpeg', '-i', mp3_path, '-ac', '1', '-ar', '16000', wav_path]  # Convert to mono, 16kHz
     subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+
 
 # Function to generate a cache key based on the audio file
 def generate_cache_key(audio_filename: str):
