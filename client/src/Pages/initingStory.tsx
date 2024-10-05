@@ -9,6 +9,8 @@ interface InitingStoryProps {
 export default function InitingStory( {transcription}: InitingStoryProps ) {
   const fullText = transcription.segments.map((segment) => segment.text).join(" ");
 
+  console.log(fullText);
+
   return (
     <div>
       <h1>Initing Story</h1>
