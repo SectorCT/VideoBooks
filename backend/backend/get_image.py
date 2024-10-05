@@ -4,7 +4,7 @@ import base64
 
 def get_image(prompt):
     # Define the API endpoint URL
-    url = 'http://192.168.111.114:7860/sdapi/v1/txt2img'
+    url = 'http://127.0.0.1:7860/sdapi/v1/txt2img'
 
     # Define the payload with parameters for text-to-image generation
     payload = {

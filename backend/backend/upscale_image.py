@@ -4,7 +4,7 @@ import json
 
 def upscale_image(image_base64):
     # Define the API endpoint for img2img
-    url = 'http://192.168.111.114:7860/sdapi/v1/img2img'
+    url = 'http://127.0.0.1:7860/sdapi/v1/img2img'
 
     # Define the payload with parameters for the img2img request (upscaling)
     payload = {

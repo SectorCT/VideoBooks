@@ -1,0 +1,108 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.storyContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    position: relative;
+}
+
+.bottomContainer {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    box-sizing: border-box;
+}
+
+.subtitleContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 55%;
+    height: fit-content;
+    flex-wrap: wrap;
+    gap: 0px 5px;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.subtitleContainer .word {
+    font-size: 20px;
+    color: #000000;
+    cursor: pointer;
+}
+
+.subtitleContainer .pastWord {
+    color: #12acff;
+}
+
+.subtitleContainer .currentWord {
+    color: #0073ff;
+    text-shadow: 0 0 2px #0073ff;
+}
+
+.progressBarContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 100%;
+    width: 100%;
+    padding: 5px 10px;
+    box-sizing: border-box;
+}
+
+.progressBarContainer {
+    display: flex;
+    align-items: center;
+}
+
+.progressBar {
+    flex-grow: 1;
+    height: 10px;
+    background-color: #eee;
+    border-radius: 5px;
+    position: relative;
+    margin-right: 10px;
+}
+
+.progressBarFill {
+    height: 100%;
+    background-color: #007bff;
+    border-radius: 5px;
+    transition: width 0.2s;
+}
+
+.progressBarDot {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    background-color: #fff;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+    cursor: pointer;
+}
+
+.playPauseButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 0;
+    margin-left: 10px;
+}
