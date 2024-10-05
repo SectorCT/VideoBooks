@@ -71,7 +71,8 @@ export default function UploadFile({ setFile }: UploadFileProps) {
   };
 
   return (
-    <>
+    <div className="appContainer">
+      <div className="content">
       <div className="navigation">
         <a href="/">
           <img
@@ -85,17 +86,16 @@ export default function UploadFile({ setFile }: UploadFileProps) {
           Upload
         </button>
       </div>
-      <h1>Listen to your books with a different appearance</h1>
+      <h2>Listen to your books with a different appearance</h2>
 
       <div
-        className="mainContainer" // Add dragging state class
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
+        className={`mainContainer`} // Apply dragging class conditionally  
       >
-        <LoadedBooks/>
+        <LoadedBooks />
 
-        <div className={`uploadFileContainer ${dragging ? "dragging" : ""} buttonContainer`}>
+        <div className={`uploadFileContainer buttonContainer ${dragging ? 'dragging' : ''}`} onDragOver={handleDragOver}
+          onDragLeave={handleDragLeave}
+          onDrop={handleDrop}>
           <input
             type="file"
             onChange={handleFileSelection}
@@ -106,9 +106,10 @@ export default function UploadFile({ setFile }: UploadFileProps) {
 
           {error && <p className="error">{error}</p>}
 
-          <p>Drag & drop a file here, or click the button to upload.</p>
+          <p>Drag & drop a file here, or click the button to upload</p>
+          <p>Or upload it from here!</p>
 
-          <button id="upload-btn" onClick={handleClick}>
+          <button className="uploadbtn" onClick={handleClick}>
             Upload
           </button>
         </div>
@@ -117,10 +118,14 @@ export default function UploadFile({ setFile }: UploadFileProps) {
       {preview && (
         <div className="previewContainer">
           <h2>File Preview:</h2>
-          {/* Optionally, render preview or other relevant information */}
           <p>{preview}</p>
         </div>
       )}
-    </>
+      
+      </div>
+      <div className="footer">
+        <p>Copyright @ StoryFrame</p>
+      </div>
+    </div>
   );
 }

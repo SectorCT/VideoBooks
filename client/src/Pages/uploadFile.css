@@ -1,7 +1,29 @@
+html, body {
+    height: 100%; 
+    margin: 0; 
+}
+
+.appContainer {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Make sure it covers at least the full height of the viewport */
+}
+
+.content{
+    flex: 1;
+}
+
+h2{
+    text-align: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-weight: bolder;
+}
+
 .navigation{
     background-image: linear-gradient(0deg, #f1d559, #f5de15);
     display: flex;
     justify-content: space-between;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
 .logoMain{
@@ -26,10 +48,44 @@
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: bolder;
 }
-.mainContainer{
+
+.btnNav:hover{
+    background-color: #e4e4e4;
+    color: #000000;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.mainContainer {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
+    transition: border 0.3s; /* Smooth transition for the border */
+}
+
+.buttonContainer{
+    padding: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.dragging {
+    border: 2px dashed #000000; /* Dashed blue border to indicate drop area */
+    background-color: rgba(0, 123, 255, 0.1); /* Optional: light background color */
+    border-radius: 3rem;
+}
+
+.footer{
+    background-color: #000000;
+    color: white;
+    padding: .5rem;
+    display: flex;
+    justify-content: center;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode';
+    font-weight: bolder;
+}
+
+.footer p{
 }
 
 /* Not made by me */
@@ -58,6 +114,19 @@
     cursor: pointer;
 }
 
+
+.uploadbtn{
+    background-color: #007bff; /* Bootstrap primary (blue) color for the input */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+}
+
+.uploadbtn:hover{
+    background-color: #0056b3; /* Darker blue color on hover */
+}
 
 .error {
     color: red;
