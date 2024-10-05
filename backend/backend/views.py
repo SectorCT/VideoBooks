@@ -8,4 +8,5 @@ def return_gpt_response(request):
     json_data = json.loads(request.body)
     text = json_data['text']
     response = call_gpt(text)
+    response = response.replace('"', '')
     return JsonResponse({'response': response})
