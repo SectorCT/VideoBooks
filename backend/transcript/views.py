@@ -8,10 +8,18 @@ from django.core.cache import cache
 import whisper
 from django.conf import settings
 from asgiref.sync import sync_to_async
+import torch  # Import PyTorch to check for CUDA support
 from tempfile import NamedTemporaryFile
 
 # Load Whisper model once (can be changed to load different models)
-model = whisper.load_model('base')
+# Load model on GPU if available
+device = "cuda" if torch.cuda.is_available() else "cpu"
+model = whisper.load_model('base', device=device)
+
+print("Running on:" + device + " device")
+print("PyTorch Version:", torch.__version__)
+print("CUDA Version:", torch.version.cuda)
+print("CUDA is available:", torch.cuda.is_available())
 
 # Async function to transcribe audio
 async def get_transcribe(audio: str, language: str = 'en'):
@@ -49,32 +57,34 @@ async def transcribe_audio(request):
         media_path = os.path.join(settings.MEDIA_ROOT, audio_filename)
 
         # Save the file to the media folder
-        with open(media_path, 'wb') as temp_file:
-            for chunk in audio_file.chunks():
-                temp_file.write(chunk)
-
-        # If MP3, convert to WAV asynchronously
-        if audio_filename.lower().endswith('.mp3'):
-            wav_path = media_path.rsplit('.', 1)[0] + '.wav'
-            await convert_mp3_to_wav(media_path, wav_path)
-            media_path = wav_path
-
-        # Generate cache key
-        cache_key = generate_cache_key(audio_filename)
-
-        # Check cache for existing result
-        cached_result = cache.get(cache_key)
-        if cached_result:
-            return JsonResponse(cached_result)
-
-        # Perform transcription asynchronously
         try:
-            print(f"Transcribing {media_path}")
+            with open(media_path, 'wb') as temp_file:
+                for chunk in audio_file.chunks():
+                    temp_file.write(chunk)
+
+            # If MP3, convert to WAV asynchronously
+            if audio_filename.lower().endswith('.mp3'):
+                wav_path = media_path.rsplit('.', 1)[0] + '.wav'
+                await convert_mp3_to_wav(media_path, wav_path)
+                media_path = wav_path
+
+            # Generate cache key
+            cache_key = generate_cache_key(audio_filename)
+
+            # Check cache for existing result
+            cached_result = cache.get(cache_key)
+            if cached_result:
+                return JsonResponse(cached_result)
+
+            # Perform transcription asynchronously
+            print(f"Transcribing {media_path} on device: {device}")
             result = await get_transcribe(audio=media_path)
             cache.set(cache_key, result)  # Cache the result
             return JsonResponse(result)  # Return the transcription as JSON
+
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
+
         finally:
             # Clean up temp file, ignore if file doesn't exist
             try:
