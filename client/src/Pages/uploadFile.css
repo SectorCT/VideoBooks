@@ -31,14 +31,11 @@
     flex-direction: row;
     justify-content: space-around;
 }
-.books{
 
-}
 /* Not made by me */
 .uploadFileContainer {
     display: flex;
     align-items: center;
-    justify-content: center;
     margin-top: 20px;
 }
 

@@ -1,0 +1,49 @@
+.books {
+    display: flex;
+    flex-direction: row;
+    border: 1px dashed gray;
+    border-radius: 2rem;
+    flex-wrap: wrap;
+    height: fit-content;
+    width: 32rem;
+    padding: 1rem;
+}
+
+.book {
+    flex-basis: 50%;
+    display: flex;
+}
+
+
+.books button{
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.books button:hover{
+    background-color: rgb(219, 219, 219);
+    border: none;
+    cursor: pointer;
+    border-radius: 2rem;
+}
+
+.data{
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-right: 1rem;
+}
+
+.book img {
+    width: 6rem;
+    height: 10rem;
+    margin: 1rem;
+    border-radius: .5rem;
+}
+
+.books h2 {
+    text-align: center;
+    width: 100%;
+}

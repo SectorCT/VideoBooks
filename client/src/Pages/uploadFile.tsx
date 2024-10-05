@@ -1,6 +1,6 @@
 import React from "react";
 import "./uploadFile.css";
-import LoadedBooks from "../loadedBooks";
+import LoadedBooks from "./loadedBooks";
 
 type UploadFileProps = {
   setFile: (file: File) => void;
@@ -88,14 +88,14 @@ export default function UploadFile({ setFile }: UploadFileProps) {
       <h1>Listen to your books with a different appearance</h1>
 
       <div
-        className={`uploadFileContainer ${dragging ? "dragging" : ""} mainContainer`} // Add dragging state class
+        className="mainContainer" // Add dragging state class
         onDragOver={handleDragOver}
         onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
         <LoadedBooks/>
 
-        <div className="buttonContainer">
+        <div className={`uploadFileContainer ${dragging ? "dragging" : ""} buttonContainer`}>
           <input
             type="file"
             onChange={handleFileSelection}
