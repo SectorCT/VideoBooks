@@ -15,7 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
@@ -23,4 +23,5 @@ urlpatterns = [
     path('return_gpt_response/', views.return_gpt_response, name="return_gpt_response"),
     path('return_image/', views.return_image, name="return_image"),
     path('return_upscaled_image/', views.return_upscaled_image, name="return_upscaled_image"),
+    path('transcribe/', include('transcript.urls')),
 ]
