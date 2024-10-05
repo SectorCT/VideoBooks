@@ -22,4 +22,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('return_gpt_response/', views.return_gpt_response, name="return_gpt_response"),
     path('return_image/', views.return_image, name="return_image"),
+    path('return_upscaled_image/', views.return_upscaled_image, name="return_upscaled_image"),
 ]
