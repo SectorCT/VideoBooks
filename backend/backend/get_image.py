@@ -1,10 +1,14 @@
 import requests
 import json
 import base64
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 def get_image(prompt):
     # Define the API endpoint URL
-    url = 'http://127.0.0.1:7860/sdapi/v1/txt2img'
+    url = f'{os.getenv("STABLE_DIFFUSION_IP")}/sdapi/v1/txt2img'
 
     # Define the payload with parameters for text-to-image generation
     payload = {
