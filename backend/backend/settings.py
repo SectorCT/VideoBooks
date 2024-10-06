@@ -39,7 +39,9 @@ SECRET_KEY = DJANGO_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [\
+    '4b62-31-13-217-180.ngrok-free.app'
+]
 
 
 # Application definition
