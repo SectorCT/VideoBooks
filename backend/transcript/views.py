@@ -1,25 +1,19 @@
-import os
-import subprocess
-import hashlib
-import asyncio
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
-from django.core.cache import cache
-import whisper
 from django.conf import settings
 from asgiref.sync import sync_to_async
-import torch  # Import PyTorch to check for CUDA support
+from backend.models import TranscriptionCache  # Import the TranscriptionCache model
+import os
+import hashlib
+import whisper
+import torch
+import asyncio
 from tempfile import NamedTemporaryFile
+import subprocess
 
 # Load Whisper model once (can be changed to load different models)
-# Load model on GPU if available
 device = "cuda" if torch.cuda.is_available() else "cpu"
 model = whisper.load_model('base', device=device)
-
-print("Running on:" + device + " device")
-print("PyTorch Version:", torch.__version__)
-print("CUDA Version:", torch.version.cuda)
-print("CUDA is available:", torch.cuda.is_available())
 
 # Async function to transcribe audio
 async def get_transcribe(audio: str, language: str = 'en'):
@@ -71,15 +65,22 @@ async def transcribe_audio(request):
             # Generate cache key
             cache_key = generate_cache_key(audio_filename)
 
-            # Check cache for existing result
-            cached_result = cache.get(cache_key)
-            if cached_result:
-                return JsonResponse(cached_result)
+            # Check the database cache for an existing result
+            cached_transcription = await sync_to_async(TranscriptionCache.objects.filter(audio_filename=cache_key).first)()
+            if cached_transcription:
+                return JsonResponse({'transcription': cached_transcription.transcription})
 
             # Perform transcription asynchronously
             print(f"Transcribing {media_path} on device: {device}")
             result = await get_transcribe(audio=media_path)
-            cache.set(cache_key, result)  # Cache the result
+
+            # Cache the result in the database
+            transcription_cache = TranscriptionCache(
+                audio_filename=cache_key,
+                transcription=result['text']  # Store only the transcription text
+            )
+            await sync_to_async(transcription_cache.save)()
+
             return JsonResponse(result)  # Return the transcription as JSON
 
         except Exception as e:
