@@ -35,16 +35,16 @@ const TranscribingPage: React.FC<TranscribingPageProps> = ({ file, setTranscript
                     setStatus("Done");
                 })
                 .catch((err) => {
-                    setError(err.message);
-                    setTranscription(null);
+                    setError(err.message);                    setTranscription(null);
                     setStatus("An error occurred");
                 });
         }
     }, [file]);
     
 
-    return (
-        <div
+    return (<>
+    <NavBar/>
+            <div
             style={{
                 display: "flex",
                 justifyContent: "center",
@@ -55,6 +55,7 @@ const TranscribingPage: React.FC<TranscribingPageProps> = ({ file, setTranscript
             <h1>{status}</h1>
             {error && <p style={{ color: "red" }}>Error: {error}</p>}
         </div>
+        </>
     );
 };
 
