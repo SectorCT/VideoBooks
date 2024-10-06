@@ -2,14 +2,20 @@ import React, { useEffect } from "react";
 import { Transcription, StorySegment } from "../types";
 
 // Remove any extra quotes or slashes here
-const GENERATE_IMAGE_API_URL = process.env.REACT_APP_GENERATE_IMAGE_API_URL || "http://127.0.0.1:8000";
+const GENERATE_IMAGE_API_URL = process.env.REACT_APP_TRANSCRIPTION_API_URL ;
 console.log(GENERATE_IMAGE_API_URL);
+
 
 async function generateImage(text: string, storySegment: StorySegment) {
   const response = await fetch(`${GENERATE_IMAGE_API_URL}/return_image/`, {
     method: "POST", // Use POST if sending a body
+    // force http version to 1.1 to avoid a bug in the server
+    // headers: {
     headers: {
-      "Content-Type": "application/json", // Set correct header
+        // force http version to 1.1 to avoid a bug in the server
+        "Connection": "keep-alive",
+        "httpVersion": "1.1",
+        "Content-Type": "application/json", // Set correct header
     },
     body: JSON.stringify({ text }), // Send JSON body
   });

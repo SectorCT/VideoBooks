@@ -94,10 +94,10 @@ const processFileAfterDrop = (file: File) => {
     <div className="appContainer">
       <div className="content">
         <NavBar/>
-        <h2 className="header2">I don't know yet</h2>
+        <h2 className="header2">Listen to your books in a different way</h2>
 
         <div className="mainContainer">
-          <LoadedBooks />
+          <LoadedBooks setTranscription={() => {}} />
 
           {isDesktop ? (
             <div
