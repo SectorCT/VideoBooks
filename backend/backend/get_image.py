@@ -13,12 +13,20 @@ def get_image(prompt):
     # Define the payload with parameters for text-to-image generation
     payload = {
         "prompt": prompt,
-        "steps": 50,                # Number of inference steps (default is 50)
+        "steps": 20,                # Number of inference steps (default is 50)
         "cfg_scale": 7.5,           # How much the model should follow the prompt (default is 7.5)
-        "width": 480,               # Width of the output image
-        "height": 270,              # Height of the output image
+        "width": 854,               # Width of the output image
+        "height": 480,              # Height of the output image
         "sampler_index": "Euler",   # Optional: specify the sampler (e.g., Euler, DDIM, etc.)
     }
+
+    override_settings = {}
+    override_settings["sd_model_checkpoint"] = "v1-5-pruned-emaonly.safetensors [6ce0161689]"
+
+    override_payload = {
+        "override_settings": override_settings
+    }
+    payload.update(override_payload)
 
     # Set the headers for the request (optional, depending on your API setup)
     headers = {

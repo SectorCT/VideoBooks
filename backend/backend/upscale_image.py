@@ -12,13 +12,21 @@ def upscale_image(image_base64):
     payload = {
         "init_images": [image_base64],  # Initial image in Base64 format
         "prompt": "Upscale this image",  # You can provide a prompt, but it's optional for upscaling
-        "steps": 50,                    # Number of steps to process
+        "steps": 20,                    # Number of steps to process
         "cfg_scale": 7.0,               # CFG scale, usually between 7-10
         "width": 854,                  # New width (upscaled width)
         "height": 480,                 # New height (upscaled height)
         "denoising_strength": 0.2,      # Denoising strength (low value keeps the original image more intact)
         "sampler_index": "Euler",       # Optional: Specify the sampler (Euler, DDIM, etc.)
     }
+
+    override_settings = {}
+    override_settings["sd_model_checkpoint"] = "v1-5-pruned-emaonly.safetensors [6ce0161689]"
+
+    override_payload = {
+        "override_settings": override_settings
+    }
+    payload.update(override_payload)
 
     # Set the headers (optional, depending on your API setup)
     headers = {
