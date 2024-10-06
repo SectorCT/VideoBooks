@@ -19,7 +19,7 @@ Story frame makes it so as the audiobook plays, AI-generated dynamic pictures (w
 
 ## Future Improvements
 - A memory system - long term and short term memory which will be reinforced into ChatGPT when creating the visuals to strenghten their context
-- A character avatar system - when a new character in the book gets introduced a card will be generated which shows how they look. If they don't resemble the image you had in your had you can regenrate it with an additional user-inputted prompt to specify what you'd like to change. Every scene, which contains the character will then receive the character card image as an input to keep the images of all characters consistent.
+- A character avatar system - when a new character in the book gets introduced a card will be generated which shows how they look. If they don't resemble the image you had in your head you can regenerate it with an additional user-inputted prompt to specify what you'd like to change. Every scene, which contains the character will then receive the character card image as an input to keep the images of all characters consistent.
 
 ## Technologies Used
 - Whisper: For transcribing audiobook audio into text.
