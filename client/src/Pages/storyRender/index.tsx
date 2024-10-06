@@ -151,7 +151,9 @@ export default function StoryRender({ storySegments, audioFile, transcription }:
             if (isPlaying) {
                 audioRef.current.pause();
             } else {
+                audioRef.current.currentTime = progress; // Set audio current time to progress (in seconds)
                 audioRef.current.play();
+                
             }
             setIsPlaying(!isPlaying); // Toggle play/pause state
         }
@@ -195,6 +197,16 @@ export default function StoryRender({ storySegments, audioFile, transcription }:
                                 onMouseDown={handleMouseDown}
                             ></div>
                         </div>
+                    </div>
+                    <div className="progressTime">
+                        <span className="currentTime">
+                            {Math.floor(progress / 60) > 0 && `${Math.floor(progress / 60)}m `}
+                            {Math.floor(progress % 60)}s
+                        </span>
+                        <span className="maxTime">
+                            {Math.floor(maxProgress / 60) > 0 && `${Math.floor(maxProgress / 60)}m `}
+                            {Math.floor(maxProgress % 60)}s
+                        </span>
                     </div>
                     <button onClick={togglePlayPause} className="playPauseButton">
                         {isPlaying ? <FaPause alignmentBaseline="baseline" /> : <FaPlay alignmentBaseline="baseline" />} {/* Conditional rendering of icons */}
