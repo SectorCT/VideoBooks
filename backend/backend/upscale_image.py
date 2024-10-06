@@ -1,10 +1,12 @@
 import requests
 import base64
 import json
+from dotenv import load_dotenv
+import os
 
 def upscale_image(image_base64):
     # Define the API endpoint for img2img
-    url = 'http://127.0.0.1:7860/sdapi/v1/img2img'
+    url = f'{os.getenv("STABLE_DIFFUSION_IP")}/sdapi/v1/img2img'
 
     # Define the payload with parameters for the img2img request (upscaling)
     payload = {
