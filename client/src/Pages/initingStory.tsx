@@ -1,24 +1,24 @@
 import React, { useEffect } from "react";
-
 import { Transcription, StorySegment } from "../types";
 
+// Remove any extra quotes or slashes here
+const GENERATE_IMAGE_API_URL = process.env.REACT_APP_GENERATE_IMAGE_API_URL || "http://127.0.0.1:8000";
+console.log(GENERATE_IMAGE_API_URL);
 
-const GENERATE_IMAGE_API_URL = process.env.REACT_APP_GENERATE_IMAGE_API_URL;
+async function generateImage(text: string, storySegment: StorySegment) {
+  const response = await fetch(`${GENERATE_IMAGE_API_URL}/return_image/`, {
+    method: "POST", // Use POST if sending a body
+    headers: {
+      "Content-Type": "application/json", // Set correct header
+    },
+    body: JSON.stringify({ text }), // Send JSON body
+  });
 
-async function generateImage(text: string) {
-    const response = await fetch(`${GENERATE_IMAGE_API_URL}/return_image/`, {
-        method: "POST", // Use POST if sending a body
-        headers: {
-            "Content-Type": "application/json", // Set correct header
-        },
-        body: JSON.stringify({ text }), // Send JSON body
-    });
-
-    if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-    }
-    const result = await response.json();
-    return result;
+  if (!response.ok) {
+    throw new Error(`HTTP error! Status: ${response.status}`);
+  }
+  const result = await response.json();
+  storySegment.image = result.image;
 }
 
 
@@ -72,6 +72,7 @@ export default function InitingStory({
 
                 // Push the finalized story segment into storySegments array
                 storySegments.push({ ...currentStorySegment });
+                generateImage(currentStorySegment.text, storySegments[storySegments.length - 1]);
 
                 // Reset currentStorySegment for the next batch of segments
                 currentStorySegment = {
@@ -93,29 +94,10 @@ export default function InitingStory({
         // Add the last incomplete story segment if it exists
         if (currentStorySegment.transciptionSegments.length > 0) {
             storySegments.push({ ...currentStorySegment });
+            generateImage(currentStorySegment.text, storySegments[storySegments.length - 1]);
         }
-
-        const img1 = storySegments[0]
-            ? generateImage(storySegments[0].text)
-            : new Promise((resolve) => resolve(""));
-        const img2 = storySegments[1]
-            ? generateImage(storySegments[1].text)
-            : new Promise((resolve) => resolve(""));
-        const img3 = storySegments[2]
-            ? generateImage(storySegments[2].text)
-            : new Promise((resolve) => resolve(""));
-
-        async function generateStartingImages() {
-            await Promise.all([img1, img2, img3]).then((images) => {
-                storySegments[0].image = images[0];
-                storySegments[1].image = images[1];
-                storySegments[2].image = images[2];
-            });
-            setStorySegments(storySegments);
-        }
-
-        generateStartingImages();
-        // Update story segments in state
+        
+        setStorySegments(storySegments);
     }, [transcription]);
 
     return (

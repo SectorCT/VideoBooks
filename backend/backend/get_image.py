@@ -15,8 +15,8 @@ def get_image(prompt):
         "prompt": prompt,
         "steps": 20,                # Number of inference steps (default is 50)
         "cfg_scale": 7.5,           # How much the model should follow the prompt (default is 7.5)
-        "width": 854,               # Width of the output image
-        "height": 480,              # Height of the output image
+        "width": 720,               # Width of the output image
+        "height": 405,              # Height of the output image
         "sampler_index": "Euler",   # Optional: specify the sampler (e.g., Euler, DDIM, etc.)
     }
 
