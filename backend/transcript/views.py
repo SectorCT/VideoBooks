@@ -56,6 +56,8 @@ async def transcribe_audio(request):
                 for chunk in audio_file.chunks():
                     temp_file.write(chunk)
 
+            print(f"Received audio file: {audio_filename}")
+
             # If MP3, convert to WAV asynchronously
             if audio_filename.lower().endswith('.mp3'):
                 wav_path = media_path.rsplit('.', 1)[0] + '.wav'
@@ -84,7 +86,7 @@ async def transcribe_audio(request):
             return JsonResponse(result)  # Return the transcription as JSON
 
         except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
+            return JsonResponse({'error': str(e)}, status=505)
 
         finally:
             # Clean up temp file, ignore if file doesn't exist

@@ -26,6 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
+STATIC_URL = '/static/'  # URL to access static files
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # Change this to your desired directory
+
+
 # Make sure the 'media' directory exists
 if not os.path.exists(MEDIA_ROOT):
     os.makedirs(MEDIA_ROOT)
@@ -39,8 +43,8 @@ SECRET_KEY = DJANGO_SECRET_KEY
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = [\
-    '4b62-31-13-217-180.ngrok-free.app'
+ALLOWED_HOSTS = [
+    "*"
 ]
 
 

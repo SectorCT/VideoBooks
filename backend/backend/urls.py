@@ -24,4 +24,5 @@ urlpatterns = [
     path('return_image/', views.return_image, name="return_image"),
     path('return_upscaled_image/', views.return_upscaled_image, name="return_upscaled_image"),
     path('', include('transcript.urls')),
+    path('return_book_transcription/', views.return_book_transcription, name="return_book_transcription"),
 ]
