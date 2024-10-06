@@ -35,6 +35,9 @@ body {
     gap: 0px 5px;
     padding: 10px;
     box-sizing: border-box;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgb(0, 0, 0);
 }
 
 .subtitleContainer .word {
@@ -105,4 +108,13 @@ body {
     font-size: 24px;
     padding: 0;
     margin-left: 10px;
+}
+
+.progressTime {
+    font-size: 14px;
+    color: #000000;
+}
+
+.progressTime .span {
+    color: #000000;
 }
