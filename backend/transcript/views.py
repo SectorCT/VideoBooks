@@ -2,7 +2,7 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from asgiref.sync import sync_to_async
-from backend.models import TranscriptionCache  # Import the TranscriptionCache model
+from backend.models import TranscriptionCache  # Import the model
 import os
 import hashlib
 import whisper
@@ -68,16 +68,16 @@ async def transcribe_audio(request):
             # Check the database cache for an existing result
             cached_transcription = await sync_to_async(TranscriptionCache.objects.filter(audio_filename=cache_key).first)()
             if cached_transcription:
-                return JsonResponse({'transcription': cached_transcription.transcription})
+                return JsonResponse(cached_transcription.transcription_data)  # Return the cached JSON result
 
             # Perform transcription asynchronously
             print(f"Transcribing {media_path} on device: {device}")
             result = await get_transcribe(audio=media_path)
 
-            # Cache the result in the database
+            # Cache the full JSON result in the database
             transcription_cache = TranscriptionCache(
                 audio_filename=cache_key,
-                transcription=result['text']  # Store only the transcription text
+                transcription_data=result  # Store the entire transcription result as JSON
             )
             await sync_to_async(transcription_cache.save)()
 

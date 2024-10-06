@@ -1,9 +1,9 @@
 from django.db import models
 
 class TranscriptionCache(models.Model):
-    audio_filename = models.CharField(max_length=255, unique=True)  # Use unique filenames
-    transcription = models.TextField()  # Store transcription as text
-    created_at = models.DateTimeField(auto_now_add=True)  # Store when the transcription was made
+    audio_filename = models.CharField(max_length=255, unique=True)  # Unique filename as cache key
+    transcription_data = models.JSONField(default=dict)  # Store the entire transcription result as JSON
+    created_at = models.DateTimeField(auto_now_add=True)  # Timestamp for when it was created
 
     def __str__(self):
         return self.audio_filename
