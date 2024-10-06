@@ -1,12 +1,5 @@
 import { useEffect, useState } from "react";
 import "./loadedBooks.css";
-
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Swiper as SwiperType } from 'swiper'; // Import Swiper type
-
-import 'swiper/css';
-
-
 export default function LoadedBooks() {
 
     const [isDesktop, setIsDesktop] = useState<boolean>(window.innerWidth > 800); // Track if it's desktop
