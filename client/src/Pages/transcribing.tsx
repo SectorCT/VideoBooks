@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Transcription } from "../types";
+import NavBar from "../Components/navBar";
 
 
 const TRANSCRIPTION_API_URL = process.env.REACT_APP_TRANSCRIPTION_API_URL ;
