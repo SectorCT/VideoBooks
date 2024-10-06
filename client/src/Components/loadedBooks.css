@@ -2,11 +2,11 @@
     display: flex;
     flex-direction: row;
     border: 1px dashed gray;
-    border-radius: 2rem;
+    border-radius: 1rem;
     flex-wrap: wrap;
     height: fit-content;
-    width: 32rem;
-    padding: 1rem;
+    width: 31rem;
+
 }
 
 .book {
@@ -25,7 +25,7 @@
     background-color: rgb(219, 219, 219);
     border: none;
     cursor: pointer;
-    border-radius: 2rem;
+    border-radius: 1rem;
 }
 
 .data{
@@ -33,7 +33,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding-right: 1rem;
 }
 
 .book img {
@@ -46,4 +45,10 @@
 .books h2 {
     text-align: center;
     width: 100%;
+}
+
+@media screen and (max-width: 800px) {
+    .books{
+        align-self: center;
+    }
 }
