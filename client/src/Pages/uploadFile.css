@@ -13,10 +13,13 @@ html, body {
     flex: 1;
 }
 
-h2{
-    text-align: center;
+.header2{
+    text-align: left;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     font-weight: bolder;
+    margin:2rem;
+    margin-left: 10rem;
+
 }
 
 .navigation{
@@ -67,6 +70,7 @@ h2{
     display: flex;
     flex-direction: column;
     justify-content: center;
+    align-items: center;
 }
 
 .dragging {
@@ -85,13 +89,11 @@ h2{
     font-weight: bolder;
 }
 
-.footer p{
-}
-
-/* Not made by me */
 .uploadFileContainer {
     display: flex;
+    flex-direction: column;
     align-items: center;
+    justify-content: center;
     margin-top: 20px;
 }
 
@@ -114,22 +116,64 @@ h2{
     cursor: pointer;
 }
 
-
 .uploadbtn{
-    background-color: #007bff; /* Bootstrap primary (blue) color for the input */
-    color: white;
+    background-color: #fbff00; /* Bootstrap primary (blue) color for the input */
+    color: rgb(0, 0, 0);
     border: none;
-    border-radius: 5px;
+    border-radius: 1rem;
     cursor: pointer;
-    padding: 10px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode';
+    font-weight: bolder;
+    padding: 1rem;
+    align-self: center;
 }
 
 .uploadbtn:hover{
     background-color: #0056b3; /* Darker blue color on hover */
 }
 
+.uploadFileContainer input{
+    display: none;
+}
+
 .error {
     color: red;
     margin-top: 20px;
+}
+
+@media screen and (max-width: 800px) {
+    .mainContainer {
+        flex-direction: column;
+    }
+    .buttonContainer{
+        padding: 1rem;
+    }
+    .header2{
+        margin-left: 1rem;
+    }
+    .header{
+        margin-left: 1rem;
+    }
+    .btnNav{
+        margin-right: 1rem;
+    }
+    .logoMain{
+        margin-left: 1rem;
+    }
+    .uploadMobile{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5rem;
+        margin-bottom: 5rem;
+    }
+    .uploadMobile input{
+        padding: 1rem;
+        background-color: #d4d4d4;
+        border-radius: 1rem;
+    }
+    .uploadbtn{
+        padding: 1rem;
+    }
   }
-  
