@@ -24,5 +24,5 @@ Story frame makes it so as the audiobook plays, dynamic pictures are displayed, 
 ## Technologies Used
 - Whisper: For transcribing audiobook audio into text.
 - ChatGPT: For generating descriptive scene prompts.
-- Stable Diffusion: For creating dynamic images based on those prompts.
+- Stable Diffusion: For creating images based on those prompts.
   
