@@ -97,16 +97,20 @@ export default function StoryRender({ storySegments, audioFile, transcription }:
     const handleMouseMove = (e: MouseEvent) => {
         if (isDragging && progressBarRef.current) {
             const { left, width } = progressBarRef.current.getBoundingClientRect();
-            const newLeft = e.clientX - left; // Calculate new position
-            const newProgress = Math.min((newLeft / width) * maxProgress, maxProgress); // Update progress in seconds
+            const newLeft = e.clientX - left; // Calculate new position relative to the progress bar, not the screen
+    
+            // Ensure that the new progress is clamped between 0 and maxProgress
+            const newProgress = Math.max(0, Math.min((newLeft / width) * maxProgress, maxProgress)); // Clamp within [0, maxProgress]
+    
             setProgress(newProgress); // Update progress state
-
+    
             // Seek the audio based on new progress
             if (audioRef.current) {
                 audioRef.current.currentTime = newProgress; // Set audio current time (in seconds)
             }
         }
     };
+    
 
     const handleMouseUp = () => {
         setIsDragging(false);
@@ -168,9 +172,12 @@ export default function StoryRender({ storySegments, audioFile, transcription }:
             backgroundPosition: "center",
             backgroundRepeat: "no-repeat",
         }}>
-            <h1>Story Render</h1>
+            {(currentStorySegment == null || currentStorySegment?.image == "") && (
+                <h1>No image available for this segment</h1>
+            )}
 
             <div className="bottomContainer">
+                {currentStorySegment && (
                 <div className="subtitleContainer">
                     {currentSegment?.words.map((word, i) => (
                         <Word 
@@ -182,6 +189,7 @@ export default function StoryRender({ storySegments, audioFile, transcription }:
                         />
                     ))}
                 </div>
+                )}
 
                 <div className="progressBarContainer" ref={progressBarRef}>
                     <div className="progressBar">
@@ -203,6 +211,7 @@ export default function StoryRender({ storySegments, audioFile, transcription }:
                             {Math.floor(progress / 60) > 0 && `${Math.floor(progress / 60)}m `}
                             {Math.floor(progress % 60)}s
                         </span>
+                        <span className="separator"> / </span>
                         <span className="maxTime">
                             {Math.floor(maxProgress / 60) > 0 && `${Math.floor(maxProgress / 60)}m `}
                             {Math.floor(maxProgress % 60)}s
