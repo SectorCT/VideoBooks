@@ -2,98 +2,125 @@ import React, { useEffect } from "react";
 
 import { Transcription, StorySegment } from "../types";
 
-interface InitingStoryProps {
-  transcription: Transcription;
-  setStorySegments: (images: StorySegment[]) => void;
+
+const GENERATE_IMAGE_API_URL = process.env.REACT_APP_GENERATE_IMAGE_API_URL;
+
+async function generateImage(text: string) {
+    const response = await fetch(`${GENERATE_IMAGE_API_URL}/return_image/`, {
+        method: "POST", // Use POST if sending a body
+        headers: {
+            "Content-Type": "application/json", // Set correct header
+        },
+        body: JSON.stringify({ text }), // Send JSON body
+    });
+
+    if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+    const result = await response.json();
+    return result;
 }
 
 
+interface InitingStoryProps {
+    transcription: Transcription;
+    setStorySegments: (images: StorySegment[]) => void;
+}
 
 const MINIMUM_STORY_SEGMENT_DURATION = 15;
 
+export default function InitingStory({
+    transcription,
+    setStorySegments,
+}: InitingStoryProps) {
+    useEffect(() => {
+        const segments = transcription.segments;
+        const storySegments: StorySegment[] = [];
 
-const GENERATE_IMAGE_API_URL = process.env.REACT_APP_GENERATE_IMAGE_API_URL || "http://127.0.0.1:8000/return_image/";
+        let currentStorySegment: StorySegment = {
+            transciptionSegments: [segments[0]],
+            start: segments[0].start,
+            end: segments[0].end,
+            image: "",
+            text: segments[0].text, // Initialize the text with the first segment text
+        };
 
-async function generateImage(text: string, storySegment: StorySegment) {
-  const response = await fetch(GENERATE_IMAGE_API_URL, {
-    method: 'POST', // Use POST if sending a body
-    headers: {
-      'Content-Type': 'application/json' // Set correct header
-    },
-    body: JSON.stringify({ text }), // Send JSON body
-  });
+        let lastSegmentEnd = 0;
 
-  if (!response.ok) {
-    throw new Error(`HTTP error! Status: ${response.status}`);
-  }
-  const result = await response.json();
-  storySegment.image = result.image;
-}
+        for (let i = 1; i < segments.length; i++) {
+            const segment = segments[i];
+            const segmentDuration = segment.end - segment.start;
+            const currentStorySegmentDuration =
+                currentStorySegment.end - currentStorySegment.start;
 
-export default function InitingStory({ transcription, setStorySegments }: InitingStoryProps) {
-  React.useEffect(() => {
-    const segments = transcription.segments;
-    const storySegments: StorySegment[] = [];
-    
-    let currentStorySegment: StorySegment = {
-        transciptionSegments: [segments[0]],
-        start: segments[0].start,
-        end: segments[0].end,
-        image: "",
-        text: ""
-    }
+            if (currentStorySegment.start < lastSegmentEnd) {
+                currentStorySegment.start = segment.start;
+            }
 
-    let lastSegmentEnd = 0;
+            if (
+                currentStorySegmentDuration + segmentDuration >=
+                MINIMUM_STORY_SEGMENT_DURATION
+            ) {
+                // Push current segment to currentStorySegment
+                currentStorySegment.transciptionSegments.push(segment);
+                currentStorySegment.end = segment.end;
 
-    for (let i = 1; i < segments.length; i++) {
-      const segment = segments[i];
-      const segmentDuration = segment.end - segment.start;
-      const currentStorySegmentDuration = currentStorySegment.end - currentStorySegment.start;
+                // Combine all text in currentStorySegment
+                currentStorySegment.text += ` ${segment.text}`; // Concatenate text correctly
 
-      if (currentStorySegment.start < lastSegmentEnd) {
-        currentStorySegment.start = segment.start;
-      }
+                // Generate image for the current segment
 
+                // Push the finalized story segment into storySegments array
+                storySegments.push({ ...currentStorySegment });
 
-      if (currentStorySegmentDuration + segmentDuration >= MINIMUM_STORY_SEGMENT_DURATION) {
-        currentStorySegment.transciptionSegments.push(segment);
-        currentStorySegment.end = segment.end;
-        generateImage(currentStorySegment.text, currentStorySegment);
-
-        lastSegmentEnd = segment.end;
-        storySegments.push(currentStorySegment);
-        currentStorySegment = {
-          transciptionSegments: [],
-          start: 0,
-          end: 0,
-          image: "",
-          text: ""
+                // Reset currentStorySegment for the next batch of segments
+                currentStorySegment = {
+                    transciptionSegments: [],
+                    start: 0,
+                    end: 0,
+                    image: "",
+                    text: "",
+                };
+                lastSegmentEnd = segment.end;
+            } else {
+                // Continue adding segments to the current story segment
+                currentStorySegment.transciptionSegments.push(segment);
+                currentStorySegment.end = segment.end;
+                currentStorySegment.text += ` ${segment.text}`; // Concatenate text correctly
+            }
         }
-      } else {
-        currentStorySegment.transciptionSegments.push(segment);
-        currentStorySegment.end = segment.end;
-      }
-    }
 
-    if (currentStorySegment.transciptionSegments.length > 0) {
-      generateImage(currentStorySegment.text, currentStorySegment);
+        // Add the last incomplete story segment if it exists
+        if (currentStorySegment.transciptionSegments.length > 0) {
+            storySegments.push({ ...currentStorySegment });
+        }
 
-      storySegments.push(currentStorySegment);
-    }
+        const img1 = storySegments[0]
+            ? generateImage(storySegments[0].text)
+            : new Promise((resolve) => resolve(""));
+        const img2 = storySegments[1]
+            ? generateImage(storySegments[1].text)
+            : new Promise((resolve) => resolve(""));
+        const img3 = storySegments[2]
+            ? generateImage(storySegments[2].text)
+            : new Promise((resolve) => resolve(""));
 
-    for (let i = 0; i < storySegments.length; i++) {
-      const segment = storySegments[i];
-      for (let j = 0; j < segment.transciptionSegments.length; j++) {
-        segment.text += segment.transciptionSegments[j].text + " ";
-      }
-    }
+        async function generateStartingImages() {
+            await Promise.all([img1, img2, img3]).then((images) => {
+                storySegments[0].image = images[0];
+                storySegments[1].image = images[1];
+                storySegments[2].image = images[2];
+            });
+            setStorySegments(storySegments);
+        }
 
-    setStorySegments(storySegments)
-  }, [transcription]);
+        generateStartingImages();
+        // Update story segments in state
+    }, [transcription]);
 
-  return (
-    <div>
-      <h1>Initing Story</h1>
-    </div>
-  );
+    return (
+        <div>
+            <h1>Initing Story</h1>
+        </div>
+    );
 }

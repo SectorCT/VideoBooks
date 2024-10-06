@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Transcription } from "../types";
-// import dotenv from "dotenv";
-// dotenv.config();
 
-const TRANSCRIPTION_API_URL = process.env.REACT_APP_TRANSCRIPTION_API_URL || "http://127.0.0.1:8000";
+
+const TRANSCRIPTION_API_URL = process.env.REACT_APP_TRANSCRIPTION_API_URL ;
 console.log(TRANSCRIPTION_API_URL);
 
 interface TranscribingPageProps {
