@@ -3,7 +3,7 @@
 Story Frame is a unique website designed to turn audiobooks into a visually immersive experience. It is especially useful for:
 
 - People who struggle to focus solely on audio.
-- Individuals with aphantasia who have difficulty visualizing scenes.
+- Individuals with aphantasia who have difficulty visualizing things in their mind.
 - Young children who are learning to enjoy audiobooks and need a visual aid to stay engaged.
 - Anyone who prefers additional visuals to enhance their audiobook experience.
 
