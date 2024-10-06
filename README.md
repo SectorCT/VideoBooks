@@ -7,7 +7,7 @@ Story Frame is a unique website designed to turn audiobooks into a visually imme
 - Young children who are learning to enjoy audiobooks and need a visual aid to stay engaged.
 - Anyone who prefers additional visuals to enhance their audiobook experience.
 
-Story frame makes it so as the audiobook plays, dynamic pictures are displayed, matching the narrative in real-time.
+Story frame makes it so as the audiobook plays pictures are displayed, matching the narrative in real-time.
 
 ## How It Works
 - Upload your audiobook: Simply upload your audiobook file into the platform.
